@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Il tuo regalo ✈️</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sky: #1a1f3a;
+    --sky-mid: #2d3561;
+    --accent: #c8a96e;
+    --accent-light: #e8c98e;
+    --white: #f7f5f0;
+    --grey: #8a8fa8;
+    --card-bg: #f7f5f0;
+    --dashed: #c4c0b8;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--sky);
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--white);
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 40px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(45,53,97,0.8) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(200,169,110,0.12) 0%, transparent 50%),
+      var(--sky);
+  }
+
+  /* Stars */
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle var(--d, 3s) var(--delay, 0s) infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: var(--max-op, 0.6); }
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+  .header .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .header h1 strong {
+    font-weight: 700;
+    display: block;
+    font-size: 36px;
+  }
+
+  /* Boarding pass card */
+  .pass {
+    background: var(--card-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    color: #1a1f3a;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.3);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s ease forwards;
+  }
+
+  /* Pass header */
+  .pass-header {
+    background: var(--sky-mid);
+    padding: 20px 24px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pass-header .airline {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+  .pass-header .plane-icon {
+    font-size: 22px;
+    transform: rotate(45deg);
+    opacity: 0.9;
+  }
+  .pass-header .flight-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: rgba(247,245,240,0.6);
+    text-align: right;
+  }
+  .pass-header .flight-num span {
+    display: block;
+    color: var(--white);
+    font-size: 14px;
+  }
+
+  /* Route */
+  .route {
+    padding: 24px 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .airport {
+    text-align: center;
+    flex: 1;
+  }
+  .airport .code {
+    font-family: 'Space Mono', monospace;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--sky);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .airport .city {
+    font-size: 11px;
+    color: var(--grey);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .route-line {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .route-line .arrow {
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .route-line .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--grey);
+  }
+
+  /* Divider */
+  .tear {
+    position: relative;
+    height: 1px;
+    margin: 0 -1px;
+  }
+  .tear::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: -12px;
+    width: 24px;
+    height: 24px;
+    background: var(--sky);
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .tear::after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    top: -12px;
+    width: 24px;
+    height: 24px;
+    background: var(--sky);
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .tear-line {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: -1px;
+    border-top: 2px dashed var(--dashed);
+  }
+
+  /* Details grid */
+  .details {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px 8px;
+  }
+  .detail-item {}
+  .detail-item .label {
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.12em;
+    color: var(--grey);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+  }
+  .detail-item .value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sky);
+    line-height: 1.2;
+  }
+  .detail-item.wide {
+    grid-column: span 2;
+  }
+
+  /* Flights section */
+  .flights {
+    padding: 0 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .flight-row {
+    background: rgba(26,31,58,0.06);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .flight-date {
+    background: var(--sky-mid);
+    color: var(--white);
+    border-radius: 8px;
+    padding: 6px 10px;
+    text-align: center;
+    min-width: 48px;
+    flex-shrink: 0;
+  }
+  .flight-date .day {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent-light);
+  }
+  .flight-date .month {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(247,245,240,0.7);
+    margin-top: 2px;
+  }
+  .flight-info {
+    flex: 1;
+  }
+  .flight-info .route-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sky);
+    line-height: 1.3;
+  }
+  .flight-info .time-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--grey);
+    margin-top: 2px;
+  }
+  .flight-info .fnum {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    margin-top: 3px;
+    letter-spacing: 0.08em;
+  }
+
+  /* Bottom tear + barcode */
+  .pass-footer {
+    background: var(--sky-mid);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .barcode {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 36px;
+  }
+  .bar {
+    background: var(--accent);
+    border-radius: 1px;
+    width: 3px;
+  }
+  .footer-text {
+    text-align: right;
+  }
+  .footer-text .big {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-light);
+    letter-spacing: 0.06em;
+  }
+  .footer-text .small {
+    font-size: 10px;
+    color: rgba(247,245,240,0.5);
+    margin-top: 3px;
+  }
+
+  /* Footer message */
+  .message {
+    margin-top: 28px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s ease forwards;
+  }
+  .message p {
+    font-size: 14px;
+    color: rgba(247,245,240,0.55);
+    line-height: 1.7;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .message .emoji {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<div class="wrapper">
+
+  <div class="header">
+    <div class="eyebrow">✈ IL TUO REGALO DI LAUREA</div>
+    <h1>Destinazione<strong>LONDRA</strong></h1>
+  </div>
+
+  <div class="pass">
+    <!-- Pass header -->
+    <div class="pass-header">
+      <div>
+        <div class="airline">BIGLIETTI CONFERMATI</div>
+      </div>
+      <div class="plane-icon">✈</div>
+      <div class="flight-num">
+        <div style="font-size:10px; color: rgba(247,245,240,0.5);">NOVEMBRE 2026</div>
+        <span>26 → 30</span>
+      </div>
+    </div>
+
+    <!-- Route -->
+    <div class="route">
+      <div class="airport">
+        <div class="code">MXP</div>
+        <div class="city">Milano Malpensa</div>
+      </div>
+      <div class="route-line">
+        <div class="arrow">→</div>
+        <div class="label">ANDATA/RITORNO</div>
+      </div>
+      <div class="airport">
+        <div class="code">LTN</div>
+        <div class="city">Londra Luton</div>
+      </div>
+    </div>
+
+    <!-- Tear -->
+    <div class="tear">
+      <div class="tear-line"></div>
+    </div>
+
+    <!-- Flights -->
+    <div class="flights" style="margin-top: 20px;">
+      <div class="flight-row">
+        <div class="flight-date">
+          <div class="day">26</div>
+          <div class="month">nov</div>
+        </div>
+        <div class="flight-info">
+          <div class="route-text">Milano Malpensa → Londra Luton</div>
+          <div class="time-text">13:20 → 14:25 &nbsp;·&nbsp; giovedì</div>
+          <div class="fnum">VOLO W4 6301</div>
+        </div>
+      </div>
+      <div class="flight-row">
+        <div class="flight-date">
+          <div class="day">30</div>
+          <div class="month">nov</div>
+        </div>
+        <div class="flight-info">
+          <div class="route-text">Londra Luton → Milano Malpensa</div>
+          <div class="time-text">15:05 → 18:05 &nbsp;·&nbsp; lunedì</div>
+          <div class="fnum">VOLO W4 6302</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tear -->
+    <div class="tear">
+      <div class="tear-line"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="pass-footer">
+      <div class="barcode" id="barcode"></div>
+      <div class="footer-text">
+        <div class="big">LONDON ✦ 2026</div>
+        <div class="small">4 notti · voli inclusi</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="message">
+    <span class="emoji">🎓</span>
+    <p>Congratulazioni dottoressa.<br>Ora si festeggia come si deve.</p>
+  </div>
+
+</div>
+
+<script>
+  // Generate stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `
+      left: ${Math.random()*100}%;
+      top: ${Math.random()*100}%;
+      --d: ${2 + Math.random()*4}s;
+      --delay: ${Math.random()*5}s;
+      --max-op: ${0.2 + Math.random()*0.5};
+      width: ${Math.random() > 0.7 ? 3 : 2}px;
+      height: ${Math.random() > 0.7 ? 3 : 2}px;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // Generate barcode bars
+  const bc = document.getElementById('barcode');
+  const heights = [20,28,18,36,24,14,30,22,36,16,28,20,34,18,26,22,36,14,30,24];
+  heights.forEach(h => {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = h + 'px';
+    bar.style.width = Math.random() > 0.5 ? '3px' : '2px';
+    bc.appendChild(bar);
+  });
+</script>
+
+</body>
+</html>
