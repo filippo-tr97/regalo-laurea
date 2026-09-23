@@ -19,9 +19,11 @@
     --dashed: #c4c0b8;
   }
 
-  html, body {
+  html {
     min-height: 100%;
     background: var(--sky);
+  }
+  body {
     font-family: 'Space Grotesk', sans-serif;
     color: var(--white);
   }
@@ -31,13 +33,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
     padding: 40px 20px;
     padding-top: calc(env(safe-area-inset-top, 0px) + 40px);
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
-    background:
-      radial-gradient(ellipse at 20% 20%, rgba(45,53,97,0.8) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 80%, rgba(200,169,110,0.12) 0%, transparent 50%),
-      var(--sky);
+    background: var(--sky);
   }
 
   /* Stars */
@@ -375,8 +375,7 @@
 <div class="wrapper">
 
   <div class="header">
-    <div class="eyebrow">✈ IL TUO REGALO DI LAUREA</div>
-    <h1>Destinazione<strong>LONDRA</strong></h1>
+    <h1>Destinazione<strong>🇬🇧 LONDRA 🇬🇧</strong></h1>
   </div>
 
   <div class="pass">
@@ -449,15 +448,12 @@
       <div class="barcode" id="barcode"></div>
       <div class="footer-text">
         <div class="big">LONDON ✦ 2026</div>
-        <div class="small">4 notti · voli inclusi</div>
+
       </div>
     </div>
   </div>
 
-  <div class="message">
-    <span class="emoji">🎓</span>
-    <p>Congratulazioni dottoressa.<br>Ora si festeggia come si deve.</p>
-  </div>
+
 
 </div>
 
